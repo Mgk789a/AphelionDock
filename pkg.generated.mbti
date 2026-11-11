@@ -1,0 +1,95 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Mgk789a/apheliondock"
+
+import {
+  "moonbitlang/core/debug",
+  "moonbitlang/core/json",
+}
+
+// Values
+pub fn review(ReviewInput) -> Review raise InputError
+
+// Errors
+#derive(@debug.Debug)
+pub suberror InputError {
+  Invalid(String)
+}
+pub fn InputError::to_repr(Self) -> @debug.Repr
+
+// Types and methods
+#derive(Eq, @json.ToJson)
+pub(all) enum DeliveryStatus {
+  OnTime
+  FilledLate
+  OpenOverdue
+}
+pub fn DeliveryStatus::equal(Self, Self) -> Bool
+pub fn DeliveryStatus::not_equal(Self, Self) -> Bool
+pub fn DeliveryStatus::to_json(Self) -> @json.Json
+
+#derive(@json.ToJson)
+pub(all) struct LineReview {
+  id : String
+  supplier : String
+  due : String
+  ordered : Int32
+  on_time_units : Int32
+  received_units : Int32
+  outstanding : Int32
+  excess : Int64
+  receipt_ids : Array[String]
+  status : DeliveryStatus
+}
+pub fn LineReview::to_json(Self) -> @json.Json
+
+#derive(@json.FromJson)
+pub(all) struct OrderLine {
+  id : String
+  supplier : String
+  due : String
+  units : Int32
+}
+pub fn OrderLine::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+
+#derive(@json.FromJson)
+pub(all) struct Receipt {
+  id : String
+  line_id : String
+  received_on : String
+  units : Int32
+}
+pub fn Receipt::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+
+#derive(@json.ToJson)
+pub(all) struct Review {
+  due_from : String
+  due_to : String
+  as_of : String
+  lines : Array[LineReview]
+  suppliers : Array[SupplierReview]
+}
+pub fn Review::to_json(Self) -> @json.Json
+
+#derive(@json.FromJson)
+pub(all) struct ReviewInput {
+  due_from : String
+  due_to : String
+  as_of : String
+  lines : Array[OrderLine]
+  receipts : Array[Receipt]
+}
+pub fn ReviewInput::from_json(@json.Json, @json.JsonPath) -> Self raise @json.JsonDecodeError
+
+#derive(@json.ToJson)
+pub(all) struct SupplierReview {
+  supplier : String
+  due_lines : Int32
+  on_time_lines : Int32
+  filled_late_lines : Int32
+  open_overdue_lines : Int32
+}
+pub fn SupplierReview::to_json(Self) -> @json.Json
+
+// Type aliases
+
+// Traits
