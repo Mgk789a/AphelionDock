@@ -1,0 +1,10 @@
+import {
+  "Mgk789a/apheliondock" @dock,
+  "moonbitlang/core/env",
+  "moonbitlang/core/json",
+  "moonbitlang/x/fs",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "js"

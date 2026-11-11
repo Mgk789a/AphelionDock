@@ -1,0 +1,23 @@
+name: Verify delivery review
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: hustcer/setup-moonbit@v1
+      - run: moon update
+      - run: moon fmt --check
+      - run: moon check --deny-warn
+      - run: moon test --deny-warn
+      - run: moon check --target js --deny-warn
+      - run: moon test --target js --deny-warn
+      - run: moon run dock-review --target js -- sample-ledger/november.json

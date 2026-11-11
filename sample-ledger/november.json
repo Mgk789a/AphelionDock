@@ -1,0 +1,69 @@
+{
+  "due_from": "2026-11-01",
+  "due_to": "2026-11-30",
+  "as_of": "2026-11-30",
+  "lines": [
+    {
+      "id": "PO-214/1",
+      "supplier": "北桥包材",
+      "due": "2026-11-10",
+      "units": 100
+    },
+    {
+      "id": "PO-219/1",
+      "supplier": "北桥包材",
+      "due": "2026-11-18",
+      "units": 100
+    },
+    {
+      "id": "PO-231/2",
+      "supplier": "鹭湾耗材",
+      "due": "2026-11-25",
+      "units": 50
+    },
+    {
+      "id": "PO-236/1",
+      "supplier": "鹭湾耗材",
+      "due": "2026-12-03",
+      "units": 70
+    }
+  ],
+  "receipts": [
+    {
+      "id": "GR-41",
+      "line_id": "PO-214/1",
+      "received_on": "2026-11-09",
+      "units": 40
+    },
+    {
+      "id": "GR-48",
+      "line_id": "PO-214/1",
+      "received_on": "2026-11-10",
+      "units": 60
+    },
+    {
+      "id": "GR-60",
+      "line_id": "PO-219/1",
+      "received_on": "2026-11-18",
+      "units": 70
+    },
+    {
+      "id": "GR-67",
+      "line_id": "PO-219/1",
+      "received_on": "2026-11-21",
+      "units": 35
+    },
+    {
+      "id": "GR-72",
+      "line_id": "PO-231/2",
+      "received_on": "2026-11-26",
+      "units": 20
+    },
+    {
+      "id": "GR-79",
+      "line_id": "PO-231/2",
+      "received_on": "2026-12-02",
+      "units": 30
+    }
+  ]
+}
