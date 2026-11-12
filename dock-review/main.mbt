@@ -19,9 +19,15 @@ fn main {
       return
     }
   }
-  let source = @fs.read_file_to_string(path) catch {
+  let bytes = @fs.read_file_to_bytes(path) catch {
     _ => {
-      stop("Could not read the input file as UTF-8.")
+      stop("Could not read the input file.")
+      return
+    }
+  }
+  let source = @utf8.decode(bytes.exact_view(), ignore_bom=true) catch {
+    _ => {
+      stop("Input is not valid UTF-8.")
       return
     }
   }
