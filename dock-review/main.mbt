@@ -25,13 +25,15 @@ fn main {
       return
     }
   }
-  let value = @json.parse(source, reject_duplicate_keys=true) catch {
-    _ => {
+  let input = decode_ledger(source) catch {
+    BadJson => {
       stop("Invalid JSON. Check syntax and duplicate keys.")
       return
     }
-  }
-  let input : @dock.ReviewInput = @json.from_json(value) catch {
+    BadQuantity(message) => {
+      stop(message)
+      return
+    }
     error => {
       stop("Invalid input fields: \{Repr(error)}")
       return
