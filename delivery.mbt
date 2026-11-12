@@ -47,6 +47,7 @@ pub(all) struct LineReview {
   excess : Int64
   receipt_ids : Array[String]
   status : DeliveryStatus
+  filled_on : String?
 }
 
 ///|
@@ -79,7 +80,7 @@ pub suberror InputError {
 priv struct ReceiptTotals {
   mut on_time : Int64
   mut received : Int64
-  ids : Array[String]
+  receipts : Array[Receipt]
 }
 
 ///|
@@ -129,6 +130,22 @@ fn valid_id(value : String) -> Bool {
 }
 
 ///|
+
+///|
+/// Return the first date the cumulative accepted quantity reached the order.
+fn first_fill_date(receipts : Array[Receipt], ordered : Int64) -> String? {
+  receipts.sort_by((a, b) => a.received_on.compare(b.received_on))
+  let mut received = 0L
+  for receipt in receipts {
+    received += receipt.units.to_int64()
+    if received >= ordered {
+      return Some(receipt.received_on)
+    }
+  }
+  None
+}
+
+///|
 /// Review a closed cohort of order lines at the end of the as-of date.
 pub fn review(input : ReviewInput) -> Review raise InputError {
   if !is_date(input.due_from) || !is_date(input.due_to) || !is_date(input.as_of) {
@@ -151,7 +168,7 @@ pub fn review(input : ReviewInput) -> Review raise InputError {
     }
     orders[line.id] = line
     if line.due >= input.due_from && line.due <= input.due_to {
-      totals[line.id] = { on_time: 0L, received: 0L, ids: [], }
+      totals[line.id] = { on_time: 0L, received: 0L, receipts: [], }
     }
   }
   let receipt_ids : Set[String] = Set([])
@@ -178,7 +195,7 @@ pub fn review(input : ReviewInput) -> Review raise InputError {
         if receipt.received_on <= line.due {
           total.on_time += receipt.units.to_int64()
         }
-        total.ids.push(receipt.id)
+        total.receipts.push(receipt)
       }
     }
   }
@@ -209,7 +226,8 @@ pub fn review(input : ReviewInput) -> Review raise InputError {
       FilledLate => count.late += 1
       OpenOverdue => count.open += 1
     }
-    total.ids.sort()
+    let ids = total.receipts.map(receipt => receipt.id)
+    ids.sort()
     lines.push({
       id: line.id,
       supplier: line.supplier,
@@ -219,7 +237,12 @@ pub fn review(input : ReviewInput) -> Review raise InputError {
       received_units: received,
       outstanding: line.units - received,
       excess: (total.received - ordered).max(0L),
-      receipt_ids: total.ids,
+      receipt_ids: ids,
+      filled_on: if received == line.units {
+        first_fill_date(total.receipts, ordered)
+      } else {
+        None
+      },
       status,
     })
   }

@@ -65,6 +65,7 @@ pub(all) struct LineReview {
   excess : Int64
   receipt_ids : Array[String]
   status : DeliveryStatus
+  filled_on : String?
 }
 pub fn LineReview::to_json(Self) -> @json.Json
 
