@@ -1,0 +1,69 @@
+{
+  "due_from": "2026-11-01",
+  "due_to": "2026-11-30",
+  "as_of": "2026-11-30",
+  "lines": [
+    {
+      "id": "PO-214/1",
+      "supplier": "北桥包材",
+      "due": "2026-11-10",
+      "ordered": 100,
+      "on_time_units": 100,
+      "received_units": 100,
+      "outstanding": 0,
+      "excess": "0",
+      "receipt_ids": [
+        "GR-41",
+        "GR-48"
+      ],
+      "status": "OnTime",
+      "filled_on": "2026-11-10"
+    },
+    {
+      "id": "PO-219/1",
+      "supplier": "北桥包材",
+      "due": "2026-11-18",
+      "ordered": 100,
+      "on_time_units": 70,
+      "received_units": 100,
+      "outstanding": 0,
+      "excess": "5",
+      "receipt_ids": [
+        "GR-60",
+        "GR-67"
+      ],
+      "status": "FilledLate",
+      "filled_on": "2026-11-21"
+    },
+    {
+      "id": "PO-231/2",
+      "supplier": "鹭湾耗材",
+      "due": "2026-11-25",
+      "ordered": 50,
+      "on_time_units": 0,
+      "received_units": 20,
+      "outstanding": 30,
+      "excess": "0",
+      "receipt_ids": [
+        "GR-72"
+      ],
+      "status": "OpenOverdue"
+    }
+  ],
+  "suppliers": [
+    {
+      "supplier": "北桥包材",
+      "due_lines": 2,
+      "on_time_lines": 1,
+      "filled_late_lines": 1,
+      "open_overdue_lines": 0
+    },
+    {
+      "supplier": "鹭湾耗材",
+      "due_lines": 1,
+      "on_time_lines": 0,
+      "filled_late_lines": 0,
+      "open_overdue_lines": 1
+    }
+  ]
+}

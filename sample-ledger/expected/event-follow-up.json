@@ -1,0 +1,21 @@
+{
+  "due_from": "2026-11-16",
+  "due_to": "2026-11-19",
+  "from_as_of": "2026-11-19",
+  "to_as_of": "2026-11-20",
+  "changes": [
+    {
+      "id": "EV-43/1",
+      "supplier": "西街物料",
+      "previous_status": "OpenOverdue",
+      "current_status": "OpenOverdue",
+      "outstanding_before": 50,
+      "outstanding_now": 30,
+      "excess_before": "0",
+      "excess_now": "0",
+      "new_receipt_ids": [
+        "DO-09/1"
+      ]
+    }
+  ]
+}
