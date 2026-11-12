@@ -1,0 +1,57 @@
+{
+  "due_from": "2026-11-09",
+  "due_to": "2026-11-13",
+  "as_of": "2026-11-13",
+  "lines": [
+    {
+      "id": "PO-46/1",
+      "supplier": "河西五金",
+      "due": "2026-11-12",
+      "units": 80
+    },
+    {
+      "id": "PO-46/2",
+      "supplier": "河西五金",
+      "due": "2026-11-13",
+      "units": 20
+    },
+    {
+      "id": "PO-58/1",
+      "supplier": "新岸机配",
+      "due": "2026-11-13",
+      "units": 50
+    }
+  ],
+  "receipts": [
+    {
+      "id": "GR-16/1",
+      "line_id": "PO-46/1",
+      "received_on": "2026-11-12",
+      "units": 60
+    },
+    {
+      "id": "GR-16/2",
+      "line_id": "PO-46/2",
+      "received_on": "2026-11-12",
+      "units": 20
+    },
+    {
+      "id": "GR-19/1",
+      "line_id": "PO-46/1",
+      "received_on": "2026-11-13",
+      "units": 15
+    },
+    {
+      "id": "GR-21/1",
+      "line_id": "PO-46/1",
+      "received_on": "2026-11-14",
+      "units": 5
+    },
+    {
+      "id": "GR-24/1",
+      "line_id": "PO-58/1",
+      "received_on": "2026-11-14",
+      "units": 50
+    }
+  ]
+}
