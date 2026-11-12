@@ -9,9 +9,15 @@ fn stop(message : String) -> Unit {
 
 ///|
 fn main {
-  guard @env.args() is [_, _, path] else {
-    stop("Usage: moon run dock-review --target js -- <input.json>")
-    return
+  let (path, follow_up_date) = match @env.args() {
+    [_, _, path] => (path, None)
+    [_, _, path, "--follow-up", date] => (path, Some(date))
+    _ => {
+      stop(
+        "Usage: moon run dock-review --target js -- <input.json> [--follow-up YYYY-MM-DD]",
+      )
+      return
+    }
   }
   let source = @fs.read_file_to_string(path) catch {
     _ => {
@@ -31,11 +37,16 @@ fn main {
       return
     }
   }
-  let report = @dock.review(input) catch {
+  let report = try {
+    match follow_up_date {
+      Some(date) => @dock.follow_up(input, date).to_json()
+      None => @dock.review(input).to_json()
+    }
+  } catch {
     @dock.Invalid(message) => {
       stop(message)
       return
     }
   }
-  println(report.to_json().stringify(indent=2))
+  println(report.stringify(indent=2))
 }

@@ -107,3 +107,36 @@ test "an incomplete due window is rejected" {
   }
   inspect(message, content="required ordering: due_from <= due_to <= as_of")
 }
+
+///|
+test "follow-up reports only new receipts for the original due cohort" {
+  let input : ReviewInput = {
+    due_from: "2026-11-01",
+    due_to: "2026-11-30",
+    as_of: "2026-11-30",
+    lines: [
+      { id: "A", supplier: "North", due: "2026-11-10", units: 5, },
+      { id: "B", supplier: "South", due: "2026-12-01", units: 5, },
+    ],
+    receipts: [
+      { id: "R1", line_id: "A", received_on: "2026-11-09", units: 1, },
+      { id: "R2", line_id: "A", received_on: "2026-12-02", units: 4, },
+      { id: "R3", line_id: "B", received_on: "2026-12-01", units: 5, },
+    ],
+  }
+  let result = follow_up(input, "2026-12-02")
+  assert_eq(result.changes.length(), 1)
+  let change = result.changes[0]
+  assert_eq(change.id, "A")
+  assert_true(change.previous_status == OpenOverdue)
+  assert_true(change.current_status == FilledLate)
+  assert_eq(change.outstanding_before, 4)
+  assert_eq(change.outstanding_now, 0)
+  assert_eq(change.new_receipt_ids, ["R2"])
+  assert_true(follow_up(input, "2026-12-01").changes.is_empty())
+  let invalid = Ok(follow_up(input, "2026-11-30")) catch { error => Err(error) }
+  guard invalid is Err(Invalid(message)) else {
+    fail("expected a follow-up date error")
+  }
+  assert_eq(message, "follow-up date must be a valid YYYY-MM-DD after as_of")
+}

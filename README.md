@@ -23,6 +23,16 @@ moon run dock-review --target js -- sample-ledger/november.json
 
 北桥包材在当月应交 2 行，其中 1 行准时足量，达成率为 **1/2**。鹭湾耗材当月应交 1 行，尚缺 30。把输入的 `as_of` 改成 `2026-12-02` 后，PO-231/2 会变成逾期补齐，十一月应交分母仍保持 3 行。
 
+## 追单时只看变化
+
+月底报告出具后，保留原应交区间，追加后续收货记录。用同一份台账比较两个日终观察点：
+
+```sh
+moon run dock-review --target js -- sample-ledger/november.json --follow-up 2026-12-02
+```
+
+样例只返回 PO-231/2 一行。新增收货单 GR-79 让缺口从 30 降到 0，状态从逾期未齐变为逾期补齐。没有新增收货的订单行会省略。追单日期必须晚于原观察日。MoonBit 调用方可以使用 `follow_up(input, later_as_of)` 获得相同结果。
+
 ## 接入自己的台账
 
 照样例准备 UTF-8 JSON。订单行写 `id`、`supplier`、`due`、`units`，收货记录写 `id`、`line_id`、`received_on`、`units`。同一订单行可关联多次收货。编号区分大小写且首尾无空白。日期采用 `YYYY-MM-DD`，数量为 1 到 2,147,483,647 的整数，同一订单行全程使用同一计量单位。台账应使用已确认的承诺日期和验收通过的收货数量。

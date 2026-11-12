@@ -21,3 +21,4 @@ jobs:
       - run: moon check --target js --deny-warn
       - run: moon test --target js --deny-warn
       - run: moon run dock-review --target js -- sample-ledger/november.json
+      - run: moon run dock-review --target js -- sample-ledger/november.json --follow-up 2026-12-02

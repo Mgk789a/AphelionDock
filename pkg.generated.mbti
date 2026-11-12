@@ -7,6 +7,8 @@ import {
 }
 
 // Values
+pub fn follow_up(ReviewInput, String) -> FollowUp raise InputError
+
 pub fn review(ReviewInput) -> Review raise InputError
 
 // Errors
@@ -17,6 +19,20 @@ pub suberror InputError {
 pub fn InputError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+#derive(@json.ToJson)
+pub struct DeliveryChange {
+  id : String
+  supplier : String
+  previous_status : DeliveryStatus
+  current_status : DeliveryStatus
+  outstanding_before : Int32
+  outstanding_now : Int32
+  excess_before : Int64
+  excess_now : Int64
+  new_receipt_ids : Array[String]
+}
+pub fn DeliveryChange::to_json(Self) -> @json.Json
+
 #derive(Eq, @json.ToJson)
 pub(all) enum DeliveryStatus {
   OnTime
@@ -26,6 +42,16 @@ pub(all) enum DeliveryStatus {
 pub fn DeliveryStatus::equal(Self, Self) -> Bool
 pub fn DeliveryStatus::not_equal(Self, Self) -> Bool
 pub fn DeliveryStatus::to_json(Self) -> @json.Json
+
+#derive(@json.ToJson)
+pub struct FollowUp {
+  due_from : String
+  due_to : String
+  from_as_of : String
+  to_as_of : String
+  changes : Array[DeliveryChange]
+}
+pub fn FollowUp::to_json(Self) -> @json.Json
 
 #derive(@json.ToJson)
 pub(all) struct LineReview {
