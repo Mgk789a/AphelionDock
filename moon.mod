@@ -6,6 +6,8 @@ readme = "README.md"
 
 license = "MIT"
 
+repository = "https://github.com/Mgk789a/AphelionDock"
+
 description = "As-of supplier delivery reviews with partial receipts"
 
 import {

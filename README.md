@@ -60,4 +60,4 @@ moon check --target js --deny-warn
 moon test --target js --deny-warn
 ```
 
-项目采用 [MIT 许可证](LICENSE)。
+项目采用 [MIT 许可证](LICENSE)。[来源与许可说明](SOURCES.md)记录依赖、示例数据和 AI 辅助范围。
