@@ -42,7 +42,7 @@ moon run dock-review --target js -- sample-ledger/november.json --follow-up 2026
 - `due_from` 到 `due_to` 两端都计入应交窗口，`as_of` 必须等于或晚于 `due_to`。承诺日当天的收货计入按时数量。
 - `OnTime` 表示承诺日内足量，`FilledLate` 表示随后在观察日内补齐，`OpenOverdue` 表示观察日结束仍有缺口。
 - 按时数量和有效收货数量都以订单量为上限，`excess` 单独记录超收，以十进制字符串输出以保留整数精度。
-- 每行的 `filled_on` 为有效收货首次累计达到订购量的日期，未齐时为 `null`。
+- 每行的 `filled_on` 为有效收货首次累计达到订购量的日期，未齐时省略该字段。
 - 报告按订单行及供应商分别汇总。供应商达成率用 `on_time_lines / due_lines` 计算。按订单行计数，避免把不同物料的数量加在一起。
 - 重复编号、未知订单行、非法日期及非正数量会中止整次运行。有效结果写入标准输出，错误写入标准错误并返回状态码 2。
 
@@ -50,7 +50,7 @@ moon run dock-review --target js -- sample-ledger/november.json --follow-up 2026
 
 ## 在 MoonBit 中复用
 
-根包 `Mgk789a/apheliondock` 的 `review` 接受 `ReviewInput`，返回 `Review` 或输入错误。核心只计算内存中的记录。入口 `dock-review` 负责读取文件、解析 JSON 和打印报告。文件读取使用 [moonbitlang/x](https://github.com/moonbitlang/x) 的 `fs` 包（Apache-2.0）。
+根包 `Mgk789a/apheliondock` 的 `review` 接受 `ReviewInput`，返回 `Review` 或输入错误。核心只计算内存中的记录，见[经过测试的 API 用法](use-api.mbt.md)。入口 `dock-review` 负责读取文件、解析 JSON 和打印报告。文件读取使用 [moonbitlang/x](https://github.com/moonbitlang/x) 的 `fs` 包（Apache-2.0）。
 
 ```sh
 moon fmt --check

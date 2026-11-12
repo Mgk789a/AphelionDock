@@ -8,4 +8,4 @@
 | 工厂物料员做周末投产准备 | 运行 `moon run dock-review --target js -- sample-ledger/production-week.json` | PO-46/1 缺 5，PO-46/2 已到齐，PO-58/1 尚缺 50。即使属于同一张采购订单，两行仍分别核对。物料员可将缺料行交给采购确认到货时间。 |
 | 活动采购在布展前做二次确认 | 运行 `moon run dock-review --target js -- sample-ledger/event-setup.json --follow-up 2026-11-20` | 只返回西街物料一行，新增 DO-09/1，缺口从 50 降到 30。布展负责人可继续催剩余 30，或按实际到货量调整布置。 |
 
-`filled_on` 记录有效收货首次累计达到订单数量的日期。观察日仍未收齐时该字段为 `null`。同日多次收货和记录顺序变化都不会改变补齐日期。
+`filled_on` 记录有效收货首次累计达到订单数量的日期。观察日仍未收齐时省略该字段。同日多次收货和记录顺序变化都不会改变补齐日期。
