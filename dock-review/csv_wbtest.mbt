@@ -44,3 +44,11 @@ test "CSV output escapes formulas and preserves text with commas" {
   ])
   assert_eq(parse_csv(out.to_string()), [["'=1+1", "North, Branch", "A\"B"]])
 }
+
+///|
+test "CSV quantities use decimal notation and reject int overflow" {
+  assert_eq(csv_units("orders", 2, "0008"), 8)
+  assert_eq(csv_units("orders", 2, "2147483647"), 2147483647)
+  let overflow = Ok(csv_units("orders", 2, "2147483648")) catch { e => Err(e) }
+  assert_true(overflow is Err(InvalidCsv(_)))
+}

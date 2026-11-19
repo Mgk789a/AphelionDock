@@ -65,15 +65,18 @@ fn csv_units(
   if value.is_empty() {
     raise InvalidCsv("\{name} record \{record}: units is empty")
   }
+  let mut units = 0
   for digit in value {
     if digit < '0' || digit > '9' {
       raise InvalidCsv(
         "\{name} record \{record}: units must contain decimal digits",
       )
     }
-  }
-  let units = @string.parse_int(value, base=10) catch {
-    _ => raise InvalidCsv("\{name} record \{record}: units exceeds 2147483647")
+    let next = digit.to_int() - '0'.to_int()
+    if units > (2147483647 - next) / 10 {
+      raise InvalidCsv("{name} record {record}: units exceeds 2147483647")
+    }
+    units = units * 10 + next
   }
   if units == 0 {
     raise InvalidCsv("\{name} record \{record}: units must be positive")
