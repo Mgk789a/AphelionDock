@@ -35,6 +35,18 @@ moon run dock-review --target js -- sample-ledger/november.json --follow-up 2026
 
 样例只返回 PO-231/2 一行。新增收货单 GR-79 让缺口从 30 降到 0，状态从逾期未齐变为逾期补齐。没有新增收货的订单行会省略。追单日期必须晚于原观察日。MoonBit 调用方可以使用 `follow_up(input, later_as_of)` 获得相同结果。
 
+## 从两张 CSV 台账导入
+
+将采购订单行和收货明细分别保存为 UTF-8 CSV（可以带 BOM）。订单表必须有 `id,supplier,due,units` 四列，收货表必须有 `id,line_id,received_on,units` 四列。表头区分大小写，列顺序可调整，额外列会被忽略。每条记录应与表头有相同的字段数。带逗号、引号或换行的字段用双引号包裹，字段内的双引号写成两个双引号。
+
+```sh
+moon run dock-review --target js -- --csv sample-ledger/november-orders.csv sample-ledger/november-receipts.csv 2026-11-01 2026-11-30 2026-11-30 --format supplier-csv
+```
+
+两个文件名后的日期依次为应交范围起日、止日以及观察日。该示例与十一月 JSON 台账使用相同数据，北桥包材仍是两行应交、一行准时足量。可对照[供应商汇总样例](sample-ledger/expected/november-suppliers.csv)。
+
+两种输入都默认输出 JSON。加 `--format csv` 可导出逐订单行报告，配合 `--follow-up YYYY-MM-DD` 可导出追单明细。使用 `--format supplier-csv` 可导出单次观察的供应商汇总。CSV 文本值如以公式字符开头会加单引号，便于在电子表格中按文本打开。需要完整原始字段时可使用 JSON 输出。
+
 ## 接入自己的台账
 
 照样例准备 UTF-8 JSON。订单行写 `id`、`supplier`、`due`、`units`，收货记录写 `id`、`line_id`、`received_on`、`units`。同一订单行可关联多次收货。编号区分大小写且首尾无空白。日期采用 `YYYY-MM-DD`，数量用 1 到 2,147,483,647 的 JSON 整数表示，同一订单行全程使用同一计量单位。台账应使用已确认的承诺日期和验收通过的收货数量。
