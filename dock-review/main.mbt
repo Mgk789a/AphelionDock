@@ -107,12 +107,18 @@ fn execute(command : Command) -> String raise {
 
 ///|
 fn main {
-  let output = execute(parse_command(@env.args())) catch {
+  let output = try {
+    match @env.args() {
+      [_, _, "--replay", path] => replay_json(path)
+      args => execute(parse_command(args))
+    }
+  } catch {
     Usage(message) => {
       print_error(message)
       print_error(
         "Usage: dock-review <input.json> or --csv ORDERS RECEIPTS DUE_FROM DUE_TO AS_OF",
       )
+      print_error("Replay: dock-review --replay EVENTS.json")
       print_error("Options: --follow-up YYYY-MM-DD, --format csv|supplier-csv")
       @env.exit(2)
     }

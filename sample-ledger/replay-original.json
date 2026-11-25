@@ -1,0 +1,27 @@
+{
+  "as_of": "2026-11-18",
+  "lines": [
+    {
+      "id": "PO-219/1",
+      "supplier": "北桥包材",
+      "due": "2026-11-10",
+      "units": 100
+    }
+  ],
+  "events": [
+    {
+      "id": "R1",
+      "line_id": "PO-219/1",
+      "date": "2026-11-10",
+      "kind": "receive",
+      "units": 60
+    },
+    {
+      "id": "R2",
+      "line_id": "PO-219/1",
+      "date": "2026-11-12",
+      "kind": "receive",
+      "units": 40
+    }
+  ]
+}

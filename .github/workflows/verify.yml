@@ -33,3 +33,8 @@ jobs:
           args=(--csv sample-ledger/november-orders.csv sample-ledger/november-receipts.csv 2026-11-01 2026-11-30 2026-11-30)
           node "$cli" "${args[@]}" | diff -u sample-ledger/expected/november.json -
           node "$cli" "${args[@]}" --format supplier-csv | diff -u sample-ledger/expected/november-suppliers.csv -
+      - name: Verify contract amendments, returns and reversals
+        run: |
+          cli=_build/js/release/build/dock-review/dock-review.js
+          node "$cli" --replay sample-ledger/replay-original.json | diff -u sample-ledger/expected/replay-original.json -
+          node "$cli" --replay sample-ledger/replay-adjusted.json | diff -u sample-ledger/expected/replay-adjusted.json -

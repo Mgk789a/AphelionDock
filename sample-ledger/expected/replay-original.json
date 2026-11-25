@@ -1,0 +1,39 @@
+{
+  "as_of": "2026-11-18",
+  "lines": [
+    {
+      "id": "PO-219/1",
+      "supplier": "北桥包材",
+      "original_due": "2026-11-10",
+      "approved_due": "2026-11-10",
+      "ordered": 100,
+      "net_received": "100",
+      "outstanding": "0",
+      "excess": "0",
+      "original_due_result": "missed",
+      "approved_due_result": "missed",
+      "original_due_net": "60",
+      "approved_due_net": "60",
+      "currently_filled_since": "2026-11-12",
+      "reopen_count": 0,
+      "trail": [
+        {
+          "event_id": "R1",
+          "date": "2026-11-10",
+          "kind": "receive",
+          "approved_due": "2026-11-10",
+          "net_received": "60",
+          "outstanding": "40"
+        },
+        {
+          "event_id": "R2",
+          "date": "2026-11-12",
+          "kind": "receive",
+          "approved_due": "2026-11-10",
+          "net_received": "100",
+          "outstanding": "0"
+        }
+      ]
+    }
+  ]
+}
